@@ -60,6 +60,19 @@ WEATHER_LONGITUDE=0.0000
 Without a `.env`, the weather slide still runs but points at `0, 0`. Everything
 else (prices, charts) needs no configuration at all.
 
+**Finding coordinates for a location** — Open-Meteo runs its own free,
+keyless geocoding API, so no separate service/key is needed:
+
+```bash
+curl "https://geocoding-api.open-meteo.com/v1/search?name=Prague&count=3"
+```
+
+That returns candidate matches (there can be more than one place with the same
+name) with `latitude`/`longitude` fields to copy into `.env`. Any map that
+shows coordinates on click works too — e.g. right-click a spot on
+[OpenStreetMap](https://www.openstreetmap.org/) or Google Maps and copy the
+lat/long pair it shows.
+
 ## Running as a service (systemd)
 
 `start_ticker.sh` isn't tracked in this repo since it hardcodes a device-specific
