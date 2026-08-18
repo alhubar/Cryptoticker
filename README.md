@@ -1,9 +1,9 @@
 # Cryptoticker
 
 A small crypto price and weather ticker for a 480×320 touchscreen, built with
-[pygame](https://www.pygame.org/). Cycles through live Bitcoin, Ethereum, and
-Monero prices and a 5-day weather forecast, with tap/swipe navigation between
-slides.
+[pygame](https://www.pygame.org/). Cycles through live prices for a
+configurable set of coins (Bitcoin, Ethereum, and Monero by default) and a
+5-day weather forecast, with tap/swipe navigation between slides.
 
 ![Cryptoticker Bitcoin slide](docs/screenshot.png)
 
@@ -72,6 +72,21 @@ name) with `latitude`/`longitude` fields to copy into `.env`. Any map that
 shows coordinates on click works too — e.g. right-click a spot on
 [OpenStreetMap](https://www.openstreetmap.org/) or Google Maps and copy the
 lat/long pair it shows.
+
+**Choosing which coins to show** — also set in `.env`, as a comma-separated
+list defining both which coins appear and their order. Defaults to
+`bitcoin,ethereum,monero` if unset:
+
+```
+CRYPTO_COINS=bitcoin,solana,dogecoin
+```
+
+Available: `bitcoin`, `ethereum`, `monero`, `solana`, `cardano`, `dogecoin`,
+`litecoin`, `ripple`, `polkadot`, `chainlink`, `binancecoin`. An unrecognized
+name is skipped with a warning rather than crashing. All of them are on
+Binance except Monero, which uses Kraken (Binance delisted XMR). Adding a
+different Binance-listed coin is a small edit to `COIN_REGISTRY` in
+`crypto_ticker.py` — ask if you want one added.
 
 ## Running as a service (systemd)
 

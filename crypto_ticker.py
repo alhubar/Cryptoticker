@@ -62,9 +62,9 @@ font_wx_temp = pygame.font.Font(FONT_PATH, 34)
 font_forecast_temp = pygame.font.Font(FONT_PATH, 19)
 font_arrow = pygame.font.Font(FONT_PATH, 50)
 
-# Coin list and metadata. 'source' picks which exchange serves both the price
-# and the chart, so a coin never straddles two APIs for one slide.
-COINS = {
+# All coins available to pick from. 'source' picks which exchange serves both
+# the price and the chart, so a coin never straddles two APIs for one slide.
+COIN_REGISTRY = {
     'bitcoin': {
         'source': 'binance',
         'symbol': 'BTCUSDT',
@@ -82,7 +82,76 @@ COINS = {
         'logo_url': 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/refs/heads/master/svg/color/xmr.svg',
         'tint': (255, 140, 40),
     },
+    'solana': {
+        'source': 'binance',
+        'symbol': 'SOLUSDT',
+        'logo_url': 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/sol.svg',
+        'tint': (153, 69, 255),
+    },
+    'cardano': {
+        'source': 'binance',
+        'symbol': 'ADAUSDT',
+        'logo_url': 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/ada.svg',
+        'tint': (0, 51, 173),
+    },
+    'dogecoin': {
+        'source': 'binance',
+        'symbol': 'DOGEUSDT',
+        'logo_url': 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/doge.svg',
+        'tint': (194, 159, 63),
+    },
+    'litecoin': {
+        'source': 'binance',
+        'symbol': 'LTCUSDT',
+        'logo_url': 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/ltc.svg',
+        'tint': (52, 131, 193),
+    },
+    'ripple': {
+        'source': 'binance',
+        'symbol': 'XRPUSDT',
+        'logo_url': 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/xrp.svg',
+        'tint': (90, 100, 120),
+    },
+    'polkadot': {
+        'source': 'binance',
+        'symbol': 'DOTUSDT',
+        'logo_url': 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/dot.svg',
+        'tint': (230, 0, 122),
+    },
+    'chainlink': {
+        'source': 'binance',
+        'symbol': 'LINKUSDT',
+        'logo_url': 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/link.svg',
+        'tint': (42, 91, 237),
+    },
+    'binancecoin': {
+        'source': 'binance',
+        'symbol': 'BNBUSDT',
+        'logo_url': 'https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/svg/color/bnb.svg',
+        'tint': (240, 185, 11),
+    },
 }
+
+DEFAULT_CRYPTO_COINS = ['bitcoin', 'ethereum', 'monero']
+
+# CRYPTO_COINS picks which coins show up and in what order, e.g.
+# "bitcoin,solana,dogecoin" - see .env.example / README for the full list.
+_requested_coins = [
+    c.strip().lower()
+    for c in os.environ.get('CRYPTO_COINS', '').split(',')
+    if c.strip()
+] or DEFAULT_CRYPTO_COINS
+
+COINS = {}
+for _key in _requested_coins:
+    if _key in COIN_REGISTRY:
+        COINS[_key] = COIN_REGISTRY[_key]
+    else:
+        print(f"Unknown coin '{_key}' in CRYPTO_COINS, skipping. "
+              f"Available: {', '.join(COIN_REGISTRY)}")
+
+if not COINS:
+    COINS = {k: COIN_REGISTRY[k] for k in DEFAULT_CRYPTO_COINS}
 
 # Set via WEATHER_LABEL / WEATHER_LATITUDE / WEATHER_LONGITUDE in a local
 # .env file (see .env.example) - deliberately no real-location default here.
