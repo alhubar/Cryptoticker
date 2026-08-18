@@ -1,0 +1,6 @@
+pygame
+requests
+Pillow
+numpy
+cairosvg
+python-dotenv
