@@ -161,7 +161,11 @@ WEATHER = {
     'longitude': float(os.environ.get('WEATHER_LONGITUDE', '0.0')),
 }
 
-SLIDE_NAMES = list(COINS.keys()) + ['weather']
+# WEATHER_ENABLED=false drops the weather slide entirely; everything else
+# (slide count, dots indicator, rotation) follows automatically.
+WEATHER_ENABLED = os.environ.get('WEATHER_ENABLED', 'true').strip().lower() not in ('false', '0', 'no', 'off')
+
+SLIDE_NAMES = list(COINS.keys()) + (['weather'] if WEATHER_ENABLED else [])
 
 PRICE_CACHE_TTL = 20        # seconds
 CHART_CACHE_TTL = 5 * 60    # seconds

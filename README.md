@@ -88,6 +88,14 @@ Binance except Monero, which uses Kraken (Binance delisted XMR). Adding a
 different Binance-listed coin is a small edit to `COIN_REGISTRY` in
 `crypto_ticker.py` — ask if you want one added.
 
+**Hiding the weather slide** — set `WEATHER_ENABLED=false` in `.env` to drop
+it entirely. The slide count and dots indicator adjust automatically, no
+other setting needed:
+
+```
+WEATHER_ENABLED=false
+```
+
 ## Running as a service (systemd)
 
 `start_ticker.sh` isn't tracked in this repo since it hardcodes a device-specific
